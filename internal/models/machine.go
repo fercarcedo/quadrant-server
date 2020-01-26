@@ -9,4 +9,5 @@ type Machine struct {
 	Inspector *User
 	NextInspection time.Time
 	LastInspection time.Time
+	Inspections []*MachineInspection
 }

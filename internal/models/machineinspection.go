@@ -2,9 +2,8 @@ package models
 
 import "time"
 
-type MachineInspector struct {
+type MachineInspection struct {
 	Id int
-	Machine *Machine
 	Inspector *User
 	Date time.Time
 	Observations string

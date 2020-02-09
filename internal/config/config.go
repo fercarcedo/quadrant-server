@@ -2,12 +2,14 @@ package config
 
 import (
 	"fmt"
+	"github.com/go-pg/pg/v9"
 	"github.com/spf13/viper"
 )
 
 var Config appConfig
 
 type appConfig struct {
+	DB *pg.DB
 	DBURL string `mapstructure:"database_url"`
 	ServerPort int `mapstructure:"port"`
 }

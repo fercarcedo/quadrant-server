@@ -5,12 +5,16 @@ import (
 	"github.com/fercarcedo/quadrant-server/internal/models"
 )
 
-type CompanyDAO struct {}
-
-func NewCompanyDAO() *CompanyDAO {
-	return &CompanyDAO{}
+type CompanyDAO interface {
+	CreateCompany(company *models.Company) error
 }
 
-func (dao *CompanyDAO) CreateCompany(company *models.Company) error {
+type companyDAO struct {}
+
+func NewCompanyDAO() CompanyDAO {
+	return &companyDAO{}
+}
+
+func (dao *companyDAO) CreateCompany(company *models.Company) error {
 	return config.Config.DB.Insert(company)
 }

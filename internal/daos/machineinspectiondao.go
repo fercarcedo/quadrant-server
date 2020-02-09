@@ -5,13 +5,18 @@ import (
 	"github.com/fercarcedo/quadrant-server/internal/models"
 )
 
-type MachineInspectionDAO struct {}
-
-func NewMachineInspectionDAO() *MachineInspectionDAO {
-	return &MachineInspectionDAO{}
+type MachineInspectionDAO interface {
+	GetMachineInspectionsByMachineId(machineId int, onlyObservations bool) ([]models.MachineInspection, error)
+	CreateMachineInspection(machineInspection *models.MachineInspection) error
 }
 
-func (dao *MachineInspectionDAO) GetMachineInspectionsByMachineId(machineId int, onlyObservations bool) ([]models.MachineInspection, error) {
+type machineInspectionDAO struct {}
+
+func NewMachineInspectionDAO() MachineInspectionDAO {
+	return &machineInspectionDAO{}
+}
+
+func (dao *machineInspectionDAO) GetMachineInspectionsByMachineId(machineId int, onlyObservations bool) ([]models.MachineInspection, error) {
 	var machineInspections []models.MachineInspection
 	query := config.Config.DB.Model(&machineInspections).Where("machine_id = ?", machineId)
 	if (onlyObservations) {
@@ -21,6 +26,6 @@ func (dao *MachineInspectionDAO) GetMachineInspectionsByMachineId(machineId int,
 	return machineInspections, err
 }
 
-func (dao *MachineInspectionDAO) CreateMachineInspection(machineInspection *models.MachineInspection) error {
+func (dao *machineInspectionDAO) CreateMachineInspection(machineInspection *models.MachineInspection) error {
 	return config.Config.DB.Insert(machineInspection)
 }

@@ -12,6 +12,7 @@ require (
 	github.com/docker/go-units v0.4.0 // indirect
 	github.com/go-pg/pg/v9 v9.1.1
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/google/uuid v1.1.1
 	github.com/lib/pq v1.3.0
 	github.com/opencontainers/image-spec v1.0.1 // indirect
 	github.com/opencontainers/runc v0.1.1 // indirect

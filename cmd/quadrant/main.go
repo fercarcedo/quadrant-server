@@ -24,5 +24,5 @@ func main() {
 	machineInspectionController := controllers.NewMachineInspectionController(services.NewMachineInspectionService(daos.NewMachineInspectionDAO()))
 	userController := controllers.NewUserController(services.NewUserService(daos.NewUserDAO()))
 	r := controllers.NewRouter(companyController, machineController, machineInspectionController, userController).SetUpRouter()
-	r.Run()	
+	r.Run(fmt.Sprintf(":%d", config.Config.ServerPort))
 }

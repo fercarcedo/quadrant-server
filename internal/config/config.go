@@ -16,6 +16,7 @@ type appConfig struct {
 
 func LoadConfig(configPath string) error {
 	v := viper.New()
+	v.SetDefault("PORT", 8080)
 	v.SetConfigName("config")
 	v.AddConfigPath(configPath)
 	v.BindEnv("PORT")

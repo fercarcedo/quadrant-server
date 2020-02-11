@@ -19,7 +19,7 @@ func NewMachineDAO() MachineDAO {
 }
 
 func (dao *machineDAO) GetMachinesByInspectorIdAndRevision(inspectorId int) ([]models.Machine, error) {
-	var machines []models.Machine
+	machines := []models.Machine{}
 	err := config.Config.DB.Model(&machines).
 		Where("inspector_id = ?", inspectorId).
 		Where("NOW() >= next_inspection OR next_inspection IS NULL").

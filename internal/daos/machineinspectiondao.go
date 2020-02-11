@@ -17,7 +17,7 @@ func NewMachineInspectionDAO() MachineInspectionDAO {
 }
 
 func (dao *machineInspectionDAO) GetMachineInspectionsByMachineId(machineId int, onlyObservations bool) ([]models.MachineInspection, error) {
-	var machineInspections []models.MachineInspection
+	machineInspections := []models.MachineInspection{}
 	query := config.Config.DB.Model(&machineInspections).Where("machine_id = ?", machineId)
 	if (onlyObservations) {
 		query = query.Where("(observations = '') IS FALSE")

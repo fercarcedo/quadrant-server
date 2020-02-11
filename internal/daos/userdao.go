@@ -19,9 +19,9 @@ func NewUserDAO() UserDAO {
 }
 
 func (dao *userDAO) GetUsersByCompanyId(companyId int) ([]models.User, error) {
-	var users []models.User
+	users := []models.User{}
 	err := config.Config.DB.Model(&users).Where("company_id = ?", companyId).Order("name ASC").Select()
-	return users, err
+	return users, err 
 }
 
 func (dao *userDAO) CreateUser(user *models.User) error {

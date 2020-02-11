@@ -17,11 +17,16 @@ type appConfig struct {
 func LoadConfig(configPath string) error {
 	v := viper.New()
 	v.SetConfigName("config")
-	v.AutomaticEnv()
 	v.AddConfigPath(configPath)
-	
+	v.BindEnv("PORT")
+	v.BindEnv("DATABASE_URL")
+
 	if err := v.ReadInConfig(); err != nil {
-		return fmt.Errorf("failed to read the configuration file: %s", err)
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			fmt.Println("Config file not found")
+		} else {
+			return fmt.Errorf("failed to read the configuration file: %s", err)
+		}
 	}
 	return v.Unmarshal(&Config)
 }

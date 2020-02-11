@@ -233,25 +233,27 @@ func TestCreateMachineInspection(t *testing.T) {
 	inspector := &models.User { Name: "testuser", IsAdmin: false, CompanyId: companies[0].Id }
 	daos.NewUserDAO().CreateUser(inspector)
 	defer config.Config.DB.Delete(inspector)
+	var inspectors []models.User
+	config.Config.DB.Model(&inspectors).Select()
 	machine := &models.Machine { Name: "testmachine", Period: 7, NextInspection: time.Now(), LastInspection: time.Now().Add(-24*7*time.Hour) }
 	daos.NewMachineDAO().CreateMachine(machine)
 	defer config.Config.DB.Delete(machine)
 	var tempMachines[] models.Machine
 	config.Config.DB.Model(&tempMachines).Select()
-	machineInspection := &models.MachineInspection { MachineId: tempMachines[0].Id, Inspector: inspector, Date: time.Now(), Observations: "test observations" }
+	machineInspection := &models.MachineInspection { MachineId: tempMachines[0].Id, InspectorId: inspectors[0].Id, Date: time.Now(), Observations: "test observations" }
 	dao := daos.NewMachineInspectionDAO()
 	err := dao.CreateMachineInspection(machineInspection)
 	assert.Nil(t, err)
 	defer config.Config.DB.Delete(machineInspection)
 	var machineInspections []models.MachineInspection
-	config.Config.DB.Model(&machineInspections).Select()
+	config.Config.DB.Model(&machineInspections).Relation("Inspector").Select()
 	assert.Equal(t, 1, len(machineInspections))
 	assert.True(t, datesEqual(machineInspection.Date, machineInspections[0].Date))
 	assert.Equal(t, machineInspection.Observations, machineInspections[0].Observations)
 	assert.Equal(t, tempMachines[0].Id, machineInspections[0].MachineId)
-	assert.Equal(t, inspector.Id, machineInspections[0].Inspector.Id)
+	assert.Equal(t, inspectors[0].Id, machineInspections[0].Inspector.Id)
 	var machines []models.Machine
-	config.Config.DB.Model(&machines).Relation("Inspections").Select()
+	config.Config.DB.Model(&machines).Relation("Inspections").Relation("Inspections.Inspector").Select()
 	assert.Equal(t, 1, len(machines))
 	assert.Equal(t, tempMachines[0].Id, machines[0].Id)
 	assert.Equal(t, 1, len(machines[0].Inspections))
@@ -282,7 +284,12 @@ func TestGetUsersByCompanyId(t *testing.T) {
 }
 
 func TestCreateUser(t *testing.T) {
-	user := &models.User { Name: "testuser", IsAdmin: true }
+	company := &models.Company { Name: "company", Code: "4bb1500c-2b05-475c-bff2-ffe93942c697" }
+	daos.NewCompanyDAO().CreateCompany(company)
+	defer config.Config.DB.Delete(company)
+	var companies []models.Company
+	config.Config.DB.Model(&companies).Select()
+	user := &models.User { Name: "testuser", IsAdmin: true, CompanyId: companies[0].Id }
 	dao := daos.NewUserDAO()
 	err := dao.CreateUser(user)
 	assert.Nil(t, err)
@@ -295,7 +302,12 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
-	user := &models.User { Name: "testuser", IsAdmin: true }
+	company := &models.Company { Name: "company", Code: "4bb1500c-2b05-475c-bff2-ffe93942c697" }
+	daos.NewCompanyDAO().CreateCompany(company)
+	defer config.Config.DB.Delete(company)
+	var companies []models.Company
+	config.Config.DB.Model(&companies).Select()
+	user := &models.User { Name: "testuser", IsAdmin: true, CompanyId: companies[0].Id }
 	dao := daos.NewUserDAO()
 	dao.CreateUser(user)
 	defer config.Config.DB.Delete(user)
@@ -311,7 +323,12 @@ func TestUpdateUser(t *testing.T) {
 }
 
 func TestDeleteUser(t *testing.T) {
-	user := &models.User { Name: "testuser", IsAdmin: true }
+	company := &models.Company { Name: "company", Code: "4bb1500c-2b05-475c-bff2-ffe93942c697" }
+	daos.NewCompanyDAO().CreateCompany(company)
+	defer config.Config.DB.Delete(company)
+	var companies []models.Company
+	config.Config.DB.Model(&companies).Select()
+	user := &models.User { Name: "testuser", IsAdmin: true, CompanyId: companies[0].Id }
 	dao := daos.NewUserDAO()
 	err := dao.CreateUser(user)
 	assert.Nil(t, err)

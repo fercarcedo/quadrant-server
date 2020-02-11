@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"github.com/fercarcedo/quadrant-server/internal/config"
 	"github.com/fercarcedo/quadrant-server/internal/db"
+	"github.com/fercarcedo/quadrant-server/internal/daos"
+	"github.com/fercarcedo/quadrant-server/internal/services"
+	"github.com/fercarcedo/quadrant-server/internal/controllers"
 )
 
 func main() {
@@ -16,4 +19,10 @@ func main() {
 		panic(fmt.Errorf("error connecting to the db: %s", err))
 	}
 	defer config.Config.DB.Close()
+	companyController := controllers.NewCompanyController(services.NewCompanyService(daos.NewCompanyDAO()))
+	machineController := controllers.NewMachineController(services.NewMachineService(daos.NewMachineDAO()))
+	machineInspectionController := controllers.NewMachineInspectionController(services.NewMachineInspectionService(daos.NewMachineInspectionDAO()))
+	userController := controllers.NewUserController(services.NewUserService(daos.NewUserDAO()))
+	r := controllers.NewRouter(companyController, machineController, machineInspectionController, userController).SetUpRouter()
+	r.Run()	
 }

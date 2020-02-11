@@ -1,8 +1,8 @@
 package models
 
 type User struct {
-	Id int
-	Name string
-	IsAdmin bool
-	CompanyId int
+	Id int `json:"-"`
+	Name string `pg:",notnull" json:"name"`
+	IsAdmin bool `json:"is_admin"`
+	CompanyId int `pg:",notnull" json:"company_id"`
 }

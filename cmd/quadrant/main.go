@@ -7,6 +7,7 @@ import (
 	"github.com/fercarcedo/quadrant-server/internal/daos"
 	"github.com/fercarcedo/quadrant-server/internal/services"
 	"github.com/fercarcedo/quadrant-server/internal/controllers"
+	"github.com/gin-contrib/static"
 )
 
 func main() {
@@ -24,5 +25,6 @@ func main() {
 	machineInspectionController := controllers.NewMachineInspectionController(services.NewMachineInspectionService(daos.NewMachineInspectionDAO()))
 	userController := controllers.NewUserController(services.NewUserService(daos.NewUserDAO()))
 	r := controllers.NewRouter(companyController, machineController, machineInspectionController, userController).SetUpRouter()
+	r.Use(static.Serve("/", static.LocalFile("/public", false)))
 	r.Run(fmt.Sprintf(":%d", config.Config.ServerPort))
 }

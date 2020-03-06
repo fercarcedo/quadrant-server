@@ -10,6 +10,7 @@ require (
 	github.com/containerd/continuity v0.0.0-20200107194136-26c1120b8d41 // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.4.0 // indirect
+	github.com/gin-contrib/static v0.0.0-20191128031702-f81c604d8ac2
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-pg/pg/v9 v9.1.1
 	github.com/go-playground/universal-translator v0.17.0 // indirect

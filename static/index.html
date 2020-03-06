@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="quadrant">
+  <link rel="apple-touch-icon" href="/icons/Icon-192.png">
+
+  <meta name="google-signin-client_id" content="517309135234-i4jg8rrke3o3vuh77nuqp4r1v7rsb124.apps.googleusercontent.com">
+
+  <title>quadrant</title>
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+
+  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBJM2NpC79vwP4XdBKMD-3X7zmdAnD0CIA",
+      authDomain: "quadrant-e1df5.firebaseapp.com",
+      databaseURL: "https://quadrant-e1df5.firebaseio.com",
+      projectId: "quadrant-e1df5",
+      storageBucket: "quadrant-e1df5.appgspot.com",
+      messagingSenderId: "251718464005",
+      appId: "1:251718464005:web:5f73720dcd5634ecbc226c"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/flutter_service_worker.js');
+      });
+    }
+  </script>
+  <script src="main.dart.js" type="application/javascript"></script>
+</body>
+</html>
